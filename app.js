@@ -2,6 +2,10 @@ const express = require("express");
 const app = express();
 const mongoose = require("mongoose");
 const Listing = require("./models/listing.js");
+const path = require("path");
+
+app.set("view engine", "ejs");
+app.set("views", path.join(__dirname, "views"));
 
 main()
     .then(()=>{
@@ -23,16 +27,22 @@ app.get("/", (req,res)=>{
     res.send("Hi, i am root");
 });
 
-app.get("/testlisting", async(req,res)=>{
-    let sampleListing = new Listing({
-        title: "Beach Villa",
-        description: "Beach-view villa",
-        price: 2000000,
-        location: "Calangute, Goa",
-        country: "India",
-    });
+// app.get("/testlisting", async(req,res)=>{
+//     let sampleListing = new Listing({
+//         title: "Beach Villa",
+//         description: "Beach-view villa",
+//         price: 2000000,
+//         location: "Calangute, Goa",
+//         country: "India",
+//     });
 
-    await sampleListing.save();
-    console.log("Sample was saved!");
-    res.send("successful testing");
+//     await sampleListing.save();
+//     console.log("Sample was saved!");
+//     res.send("successful testing");
+// });
+
+//index route
+app.get("/listings", async(req,res)=>{
+    const allListings = await Listing.find({});
+    res.render("Listings/index.ejs", {allListings});
 });
