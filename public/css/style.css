@@ -94,3 +94,16 @@ body{
     border: none;
 }
 
+/* Show Page */
+.show-img{
+    height: 30vh;
+}
+
+.btns{
+    display: flex;
+}
+
+.edit-btn{
+    color: white;
+    background-color: brown;
+}
