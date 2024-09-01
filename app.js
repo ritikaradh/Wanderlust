@@ -36,7 +36,7 @@ app.get("/", (req,res)=>{
     res.send("Hi, i am root");
 });
 
-//server side form validation of listing
+//server side form-validation of listing
 const validateListing = (req, res, next) => {
     let {error} = listingSchema.validate(req.body);
     if(error) {
@@ -47,7 +47,7 @@ const validateListing = (req, res, next) => {
     }
 };
 
-//server side form validation of reviews
+//server side form-validation of reviews
 const validateReview = (req, res, next) => {
     let { error } = reviewSchema.validate(req.body);
     if (error) {
@@ -73,7 +73,7 @@ app.get("/listings/new", (req, res)=>{
 //show route
 app.get("/listings/:id", wrapAsync(async(req,res)=>{
     let {id} = req.params;
-    const listing = await Listing.findById(id);
+    const listing = await Listing.findById(id).populate("reviews");
     res.render("listings/show.ejs", {listing});
 }));
 
@@ -123,6 +123,16 @@ app.post("/listings/:id/reviews", validateReview, wrapAsync(async(req, res) => {
     await listing.save();
 
     res.redirect(`/listings/${listing._id}`);
+}));
+
+//Reviews
+//Delete route
+app.delete("/listings/:id/reviews/:reviewId", wrapAsync(async (req, res) => {
+    let { id, reviewId } = req.params;
+    await Listing.findByIdAndUpdate(id, {$pull : {reviews : reviewId}});
+    await Review.findByIdAndDelete(reviewId);
+
+    res.redirect(`/listings/${id}`);
 }));
 
 app.all("*", (req, res, next)=>{
