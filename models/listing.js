@@ -13,17 +13,6 @@ const listingSchema = new mongoose.Schema({
         url: String,
         filename: String,
     },
-    // image: {
-    //     filename: {
-    //         type: String,
-    //         default: "defaultimage"
-    //     },
-    //     url: {
-    //         type: String,
-    //         default: "https://unsplash.com/photos/cloudy-sky-80sv993lUKI",
-    //         set: (v) => v === " " ? "https://unsplash.com/photos/cloudy-sky-80sv993lUKI" : v,
-    //     },
-    // },
     price: {
         type: Number
     },
@@ -42,6 +31,17 @@ const listingSchema = new mongoose.Schema({
     owner: {
         type: Schema.Types.ObjectId,
         ref: "User",
+    },
+    geometry: { //ref from mongodb documentation on geoJSON data
+        type: {
+            type: String,
+            enum: ["Point"],
+            required: true,
+        }, 
+        coordinates: {
+            type: [Number],
+            required: true,
+        },
     },
 });
 
