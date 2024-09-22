@@ -113,3 +113,9 @@ body{
     height: 400px;
     width: 600px;
 }
+
+/*Review Card Style modification*/
+.review-card{
+    padding: 1rem !important;
+    background-color: azure !important;
+}
